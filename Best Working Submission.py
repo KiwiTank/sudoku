@@ -1,7 +1,7 @@
 import numpy as np
 
-data = np.load("D:/OneDrive/MSc AI/Work files/03_FoAI/sudoku/data/very_easy_puzzle.npy")
-solutions = np.load("D:/OneDrive/MSc AI/Work files/03_FoAI/sudoku/data/very_easy_solution.npy")
+data = np.load("/data/very_easy_puzzle.npy")
+solutions = np.load("/very_easy_solution.npy")
 test_puzzle = data[14]
 test2 = np.array([[3, 7, 4, 5, 8, 0, 6, 2, 9],
                   [8, 2, 5, 7, 9, 6, 4, 0, 1],
