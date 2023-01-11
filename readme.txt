@@ -1,0 +1,29 @@
+For this assignment, to produce a Sudoku-solving algorithm, I decided to develop a backtracking search utilising constraints and some optimisations of the search functionality.
+
+A class, named SudokuState, was created to hold the current state of the Sudoku numpy array as well as the various functions to be called on it. Alongside the expected functions
+to check if the puzzle was completed, set new values, check if a value is valid at a specific location, and return earlier attempts to zero, there are two primary optimisation features 
+that attempt to reduce the search time of the algorithm to follow. The first is the 'get_possible_values' function, which returns a tuple of all possible values for a given array 
+row/column pair by checking what values are currently in the puzzle state in the row, column, or 3x3 cube in which the index resides. The second function, 'get_dict', returns and then 
+updates a dictionary which contains keys of row/column tuples for each value that is currently empty in the puzzle. The values of each key use the 'get_possible_values' function to assign 
+a tuple of all currently valid values that could be entered into the key's index. By using these two functions the search moves away from random or static ordering of unassigned variables
+in the hope that a solution can be found quicker from those with more limited possible options.
+
+Outside of this class are three further global functions. The first, 'get_shortest_values', is intended to reduce the search space by ordering an input dictionary and returning 
+only the keys sorted by the length of their value tuples in the input dictionary. This is then used by the search function to prioritise those values that have a higher probability of 
+being a correct input in the puzzle, thus utilising the minimum-remaining-values (MRV) heuristic. Running the search this way also has the secondary advantage of finding those
+puzzle squares that are likely to fail first, and thus flagging an unsolvable puzzle without needing to run extra iterations of the search.
+
+The backtrack search function itself, called 'checker', takes the Sudoku puzzle array as an input, and returns either True if it was able to return a solved puzzle, or False if the puzzle
+is unsolvable. It does this firstly by creating a SudokuState state ('puzzle') which holds the current iteration of the input array, as well as a dictionary ('state_dict') of missing value
+indexes with valid values from the 'get_dict' function introduced above.
+The first iterative action of the 'checker' function is to check if any puzzle squares have only one valid input value and can thus be changed immediately, as if the input was not a valid 
+action then the puzzle is immediately flagged as unsolvable. The global variable 'first' ensures this check only happens on the initial pass through the function in order that these
+checks are only run on the fresh and unaltered puzzle. The 'first' variable flag is updated to False after this 'while' loop. 
+If a goal state is achieved during this initial process, then the puzzle is solved and True is returned after a check to ensure that no invalid values exist in the puzzle.
+Assuming no goal state is achieved on the first pass, then a recursion 'for' loop is run while the puzzle is not solved, which takes the array index key with the least amount of valid values, loops
+through these and sets those that are valid for the puzzle in its current state. The 'checker' function is then recursively called until a valid value cannot be found, in which case the value is 
+set back to zero and another attempt is made. The recusion loop continues until either the puzzle is solved and True is returned, or no further valid values remain while the puzzle is unsolved
+and False is returned.
+
+The last function, 'sudoku_solver' takes the initial puzzle and runs the 'checker' function above on it. If the output is True, then the function returns the solved puzzle, otherwise it returns a
+9x9 array of '-1' values to indicate failure.
