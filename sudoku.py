@@ -1,8 +1,5 @@
 import numpy as np
-
-data = np.load("/data/very_easy_puzzle.npy")
-solutions = np.load("/very_easy_solution.npy")
-test_puzzle = data[14]
+# example unsolved sudoku puzzles
 test2 = np.array([[3, 7, 4, 5, 8, 0, 6, 2, 9],
                   [8, 2, 5, 7, 9, 6, 4, 0, 1],
                   [6, 9, 1, 2, 3, 4, 8, 7, 5],
@@ -208,9 +205,4 @@ def sudoku_solver(sudoku):
 
 
 if __name__ == "__main__":
-    # print(SudokuState(test_puzzle).empty_values)
-    # print(SudokuState(test_puzzle).get_possible_values(1, 1))
-    # print(SudokuState(test_puzzle).is_goal())
-    # print(SudokuState(test3).get_empty())
-    print(hard3)
-    print(sudoku_solver(test_puzzle))
+    print(sudoku_solver(hard3))
